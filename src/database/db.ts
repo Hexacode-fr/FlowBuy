@@ -4,7 +4,7 @@ export interface Product {
   id?: number
   name: string
   categoryId: number
-  createdAt: number
+  createdAt: string
 }
 
 export interface Category {
@@ -17,6 +17,7 @@ export interface CartItem {
   id?: number
   cartId: number
   productId: number
+  name: string
   quantity: number
   unit: string
   checked: boolean
@@ -25,7 +26,7 @@ export interface CartItem {
 export interface Cart {
   id?: number
   name: string
-  createdAt: string,
+  createdAt: string
 }
 
 export interface Setting {
@@ -44,10 +45,10 @@ class FlowBuyDatabase extends Dexie {
     super("FlowBuyDatabase")
 
     this.version(1).stores({
-      products: "++id, name, categoryId",
+      products: "++id, name, categoryId, createdAt",
       carts: "++id, name, createdAt",
       cartItems: "++id, cartId, productId",
-      categories: "++id, name, unit",
+      categories: "++id, name",
       settings: "key",
     })
   }

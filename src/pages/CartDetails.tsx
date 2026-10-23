@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "@solidjs/router"
 import { db } from "../database/db"
-import { Show } from "solid-js"
+import { For, Show } from "solid-js"
 import { Portal } from "solid-js/web"
 import { useLiveQuery } from "../hooks/useLiveQuery"
 import { ChevronLeft, Plus } from 'lucide-solid';
@@ -9,11 +9,9 @@ import CartItemPopUp from "../components/popup/CartItemPopUp"
 export default function CartDetails() {
     const params = useParams()
     const cart = useLiveQuery(() => db.carts.get(Number(params.id)))
+    const items = useLiveQuery(() => db.cartItems.where('cartId').equals(Number(params.id)).toArray())
     const navigate = useNavigate()
     let CartItemPopUpRef!: HTMLDialogElement
-    const AddCartItem = () => {
-
-    }
     return (
         <div class="root">
             <Show when={cart()} fallback={<p>Chargement...</p>}>        
@@ -44,10 +42,15 @@ export default function CartDetails() {
                         </button>
                     </div>
                 </Portal>
+                <For each={items()}>
+                    {(i) => (
+                        <h1>{i.name}</h1>
+                    )}
+                </For>
                 <CartItemPopUp
+                    CartId={Number(params.id)}
                     ref={CartItemPopUpRef}
-                    onSave={() => {}}
-                    onClose={() => {}}
+                    onClose={() => CartItemPopUpRef.close()}
                 />
             </Show>
         </div>
