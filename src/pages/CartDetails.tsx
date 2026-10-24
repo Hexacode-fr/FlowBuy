@@ -5,6 +5,8 @@ import { Portal } from "solid-js/web"
 import { useLiveQuery } from "../hooks/useLiveQuery"
 import { ChevronLeft, Plus } from 'lucide-solid';
 import CartItemPopUp from "../components/popup/CartItemPopUp"
+import CartItemCard from "../components/Card/CartItemCard"
+
 
 export default function CartDetails() {
     const params = useParams()
@@ -44,9 +46,15 @@ export default function CartDetails() {
                 </Portal>
                 <For each={items()}>
                     {(i) => (
-                        <h1>{i.name}</h1>
+                        <CartItemCard
+                            id={i.productId}
+                            name={i.name}
+                            quantity={i.quantity}
+                            unit={i.unit}
+                        />
                     )}
                 </For>
+                
                 <CartItemPopUp
                     CartId={Number(params.id)}
                     ref={CartItemPopUpRef}

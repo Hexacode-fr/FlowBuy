@@ -67,7 +67,9 @@ export default function AddProductCard(props: Props) {
                 >
                     <Minus color='white' />
                 </button>
-                <h3>{quantity()}</h3>
+                <p style={{
+                    "font-size": '12px'
+                }}>{quantity()}{category()?.unit}</p>
                 <button
                     class='roundButton'
                     onClick={() => {

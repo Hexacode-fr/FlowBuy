@@ -28,7 +28,7 @@ export default function ProductList() {
         await db.products.add({
             name,
             categoryId: catId,
-            createdAt: Date.now(),
+            createdAt: new Date().toLocaleDateString('fr-FR'),
         })
         productDialogRef.close()
     }
