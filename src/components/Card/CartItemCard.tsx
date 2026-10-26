@@ -35,11 +35,6 @@ export default function CartItem(props: Props) {
                 <h2 style={{
                     margin: 0
                 }}>{props.name}</h2>
-                <p style={{
-                    margin: 0,
-                    "font-size": '13px',
-                    opacity: 0.9
-                }}>{category()?.name}</p>
             </div>
             <p style={{
                 "margin-left": 'auto'

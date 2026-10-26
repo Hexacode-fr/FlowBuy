@@ -20,6 +20,7 @@ export interface CartItem {
   name: string
   quantity: number
   unit: string
+  categoryId: number
   checked: boolean
 }
 
@@ -44,10 +45,10 @@ class FlowBuyDatabase extends Dexie {
   constructor() {
     super("FlowBuyDatabase")
 
-    this.version(2).stores({
+    this.version(3).stores({
       products: "++id, name, categoryId, createdAt",
       carts: "++id, name, createdAt",
-      cartItems: "++id, cartId, productId, name",
+      cartItems: "++id, cartId, productId, name, categoryId",
       categories: "++id, name",
       settings: "key",
     })
