@@ -44,7 +44,7 @@ export default function CartItemPopUp(props: Props) {
 
     return <>
         <dialog ref={props.ref} class="popup">
-            <h2>Ajouter des produits au panier</h2>
+            <h2>Modifier votre panier</h2>
             <div id='scroll'>
                 <For each={products()}>
                     {(p) => (

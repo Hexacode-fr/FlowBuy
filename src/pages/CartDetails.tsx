@@ -37,10 +37,15 @@ export default function CartDetails() {
                             }}
                             class="roundButton"
                             style={{
-                                "margin-left": 'auto'
+                                "margin-left": 'auto',
+                                width: '100px',
+                                color: 'white',
+                                "font-family": 'Poppins'
                             }}
                         >
-                            <Plus color="white" />
+                            <p style={{
+                                "font-family": 'Poppins'
+                            }}>Modifier</p>
                         </button>
                     </div>
                 </Portal>

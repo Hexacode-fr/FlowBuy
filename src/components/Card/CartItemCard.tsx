@@ -12,6 +12,7 @@ interface Props {
 export default function CartItem(props: Props) {
 
     const [category, setCategory] = createSignal<Category>()
+    const [checked, setChecked] = createSignal(false)
 
     onMount(async () => {
         const product = await db.products.get(props.id)
@@ -21,7 +22,15 @@ export default function CartItem(props: Props) {
     })
 
     return <>
-        <div id='card'>
+        <div id='card' style={{
+                "text-decoration": checked() ? 'line-through' : 'none',
+                color: checked() ? 'red' : 'white'
+        }}>
+            <input
+                type="checkbox"
+                checked={checked()}
+                onChange={(e) => setChecked(e.currentTarget.checked)}
+            />
             <div>
                 <h2 style={{
                     margin: 0
