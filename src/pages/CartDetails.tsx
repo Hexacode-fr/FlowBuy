@@ -5,14 +5,18 @@ import { Portal } from "solid-js/web"
 import { useLiveQuery } from "../hooks/useLiveQuery"
 import { ChevronLeft, Plus } from 'lucide-solid';
 import CartItemPopUp from "../components/popup/CartItemPopUp"
-import CartItemCard from "../components/Card/CartItemCard"
+import CategoriesCartItem from "../components/CategoriesCartItem"
 
 
 export default function CartDetails() {
     const params = useParams()
     const cart = useLiveQuery(() => db.carts.get(Number(params.id)))
-    const items = useLiveQuery(() => db.cartItems.where('cartId').equals(Number(params.id)).toArray())
     const navigate = useNavigate()
+    const categories = useLiveQuery(() =>
+        db.cartItems.where("cartId").equals(Number(params.id)).toArray()
+            .then(items => db.categories.where("id").anyOf(items.map(i => i.categoryId)).sortBy("name"))
+    )
+
     let CartItemPopUpRef!: HTMLDialogElement
     return (
         <div class="root">
@@ -49,13 +53,11 @@ export default function CartDetails() {
                         </button>
                     </div>
                 </Portal>
-                <For each={items()}>
-                    {(i) => (
-                        <CartItemCard
-                            id={i.productId}
-                            name={i.name}
-                            quantity={i.quantity}
-                            unit={i.unit}
+                <For each={categories()}>
+                    {(c) => (
+                        <CategoriesCartItem
+                            cartId={Number(params.id)}
+                            categoryId={c.id!}
                         />
                     )}
                 </For>

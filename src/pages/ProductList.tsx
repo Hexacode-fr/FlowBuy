@@ -2,19 +2,22 @@ import { db } from "../database/db"
 import '../css/ProductList.css'
 import { Portal } from "solid-js/web"
 import { Plus } from "lucide-solid"
-import { For, from } from "solid-js"
+import { createSignal, For} from "solid-js"
 import ProductPopUp from "../components/popup/ProductPopUp"
-import { liveQuery } from "dexie"
 import { CategoriesPopUp } from "../components/popup/CategoriesPopUp"
 import ProductCard from "../components/Card/ProductCard"
+import { useLiveQuery } from "../hooks/useLiveQuery"
+import DeleteProductPopUp from "../components/popup/DeletePorductPopUp"
 
 
 export default function ProductList() {
     
-    const categories = from(liveQuery(() => db.categories.toArray()))
-    const products = from(liveQuery(() => db.products.toArray()))
+    const categories = useLiveQuery(() => db.categories.toArray())
+    const products = useLiveQuery(() => db.products.toArray())
+    const [signalId, setSignalId] = createSignal<number>()
     let productDialogRef!: HTMLDialogElement
     let categoryDialogRef!: HTMLDialogElement
+    let DeleteProductDialogRef!: HTMLDialogElement
 
     const closeCategoryPopUp = () => {
         categoryDialogRef.close()
@@ -32,8 +35,9 @@ export default function ProductList() {
         })
         productDialogRef.close()
     }
-    const deleteProduct = async (id: number) => {
-        await db.products.delete(id)
+    const deleteProduct = (id: number) => {
+        setSignalId(id)
+        DeleteProductDialogRef.showModal()
     }
 
 
@@ -90,6 +94,11 @@ export default function ProductList() {
             ref={categoryDialogRef}
             onClose={() => closeCategoryPopUp()}  
             onSave={saveCategoryPopUp} 
+        />
+        <DeleteProductPopUp
+            ref={DeleteProductDialogRef}
+            id={signalId()!}
+            onClose={() => DeleteProductDialogRef.close()}
         />
     </>
 }

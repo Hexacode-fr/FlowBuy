@@ -3,13 +3,16 @@ import { Portal } from "solid-js/web";
 import CartPopUp from "../components/popup/CartPopUp";
 import { db } from "../database/db";
 import { liveQuery } from "dexie";
-import { For, from } from "solid-js";
+import { createSignal, For, from } from "solid-js";
 import CartCard from "../components/Card/CartCard";
+import CartDeletePopUp from "../components/popup/CartDeletePopUp";
 
 export default function Carts() {
 
     let CreateCartDialogRef!: HTMLDialogElement
+    let DeleteCartDialogRef!: HTMLDialogElement
     const carts = from(liveQuery(() => db.carts.toArray()))
+    const [signalId, setSignalId] = createSignal<number>()
 
     const CreateCart = async (value: string) => {
         CreateCartDialogRef.close()
@@ -19,7 +22,8 @@ export default function Carts() {
         })
     }
     const DeleteCart = (id: number) => {
-        db.carts.delete(id)
+        setSignalId(id)
+        DeleteCartDialogRef.showModal()
     }
 
     return <>
@@ -68,6 +72,11 @@ export default function Carts() {
             ref={CreateCartDialogRef}
             onSave={CreateCart}
             onClose={() => CreateCartDialogRef.close()}
+        />
+        <CartDeletePopUp
+            ref={DeleteCartDialogRef}
+            id={signalId()!}
+            onClose={() => DeleteCartDialogRef.close()}
         />
     </>
 }

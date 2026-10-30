@@ -48,7 +48,7 @@ class FlowBuyDatabase extends Dexie {
     this.version(3).stores({
       products: "++id, name, categoryId, createdAt",
       carts: "++id, name, createdAt",
-      cartItems: "++id, cartId, productId, name, categoryId",
+      cartItems: "++id, cartId, productId, name, categoryId, [cartId+categoryId]",
       categories: "++id, name",
       settings: "key",
     })

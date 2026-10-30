@@ -1,44 +1,29 @@
-import { createSignal, onMount } from 'solid-js'
 import '../../css/CardItemCard.css'
-import { db, type Category } from '../../database/db'
+import { db } from '../../database/db'
 
 interface Props {
     id: number
     name: string,
     quantity: number,
     unit: string,
+    checked: boolean,
 }
 
 export default function CartItem(props: Props) {
-
-    const [category, setCategory] = createSignal<Category>()
-    const [checked, setChecked] = createSignal(false)
-
-    onMount(async () => {
-        const product = await db.products.get(props.id)
-        if (product) {
-            setCategory(await db.categories.get(product.categoryId))
-        }
-    })
-
     return <>
         <div id='card' style={{
-                "text-decoration": checked() ? 'line-through' : 'none',
-                color: checked() ? 'red' : 'white'
+            "text-decoration": props.checked ? 'line-through' : 'none',
+            color: props.checked ? 'red' : 'white',
         }}>
             <input
                 type="checkbox"
-                checked={checked()}
-                onChange={(e) => setChecked(e.currentTarget.checked)}
+                checked={props.checked}
+                onChange={(e) => db.cartItems.update(props.id, { checked: e.currentTarget.checked })}
             />
             <div>
-                <h2 style={{
-                    margin: 0
-                }}>{props.name}</h2>
+                <h2 style={{ margin: 0 }}>{props.name}</h2>
             </div>
-            <p style={{
-                "margin-left": 'auto'
-            }}>{props.quantity} {props.unit}</p>
+            <p style={{ "margin-left": 'auto' }}>{props.quantity} {props.unit}</p>
         </div>
     </>
 }

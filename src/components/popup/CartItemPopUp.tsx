@@ -38,6 +38,7 @@ export default function CartItemPopUp(props: Props) {
                 quantity,
                 unit,
                 checked: false,
+                categoryId: category?.id!
             })
         }
     }

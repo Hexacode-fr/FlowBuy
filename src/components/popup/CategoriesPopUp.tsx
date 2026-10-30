@@ -20,13 +20,23 @@ export function CategoriesPopUp(props: Props) {
             }}>
                 <button
                     class="form"
-                    onClick={() => props.onClose()}
+                    onClick={() => {
+                        props.onClose()
+                        inputNameRef.value = ''
+                        inputUnitRef.value = ''
+                    }}
                 >
                     Annuler
                 </button>
                 <button
                     class="form other"
-                    onClick={() => props.onSave(inputNameRef.value, inputUnitRef.value)}
+                    onClick={() => {
+                        const NameValue = inputNameRef.value
+                        const UnitValue = inputUnitRef.value
+                        props.onSave(NameValue, UnitValue)
+                        inputNameRef.value = ''
+                        inputUnitRef.value = ''
+                    }}
                 >
                     Enregistrer
                 </button>
