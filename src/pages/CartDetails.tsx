@@ -3,7 +3,7 @@ import { db } from "../database/db"
 import { For, Show } from "solid-js"
 import { Portal } from "solid-js/web"
 import { useLiveQuery } from "../hooks/useLiveQuery"
-import { ChevronLeft, Plus } from 'lucide-solid';
+import { ChevronLeft } from 'lucide-solid';
 import CartItemPopUp from "../components/popup/CartItemPopUp"
 import CategoriesCartItem from "../components/CategoriesCartItem"
 
